@@ -7,10 +7,10 @@ jobs:
         runs-on: ubuntu-latest
         steps: 
         - name: Welcome Message
-        run: echo "my forst github actions job"
+        run: echo "my first github actions job"
 
-        - name: List Files
+        - name: List files
         run: ls
 
         - name: Read File
-        run Cat.Readme
+        run cat.README.md
