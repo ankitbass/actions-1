@@ -1,0 +1,49 @@
+name: Generate ASCII Artwork
+on: push
+jobs: 
+    build_job_1:
+        runs-on: ubuntu-latest
+        steps: 
+        - name: Checkout Repo
+          uses: actions/checkout@v4
+        
+        - name: Install Cowsay Program
+          run: sudo apt -get install cowsay -y
+
+        - name: Execute Cowsay CMD
+          run: cowsay -f dragon "Run for cover, I am a Dragon....RAWR" >> dragon.txt
+
+        - name: Upload Dragon text File   #this will upload the txt file generated from this vdi to be used by another job
+          uses: actions/upload-artifact@v3
+          with:
+            name: dragon-text-file
+            path: dragon.txt   #this means that the dragon.txt file is placed in the root folder
+
+
+    test_job_2:  
+        needs: build_job_1   #needs ensures that test_job_2 will only run after build_job_1 i.e. there is a dependency of 1st job on 2nd job OR this tells the dependency of 2nd job 
+        runs-on: ubuntu-latest  
+        steps:
+        - name: Download Dragon text File   #this will download the txt file generated from this vdi to be used by another job
+          uses: actions/download-artifact@v3
+          with:
+            name: dragon-text-file
+
+        - name: Test File Exists
+          run: grep -i "dragon" dragon.txt
+
+    deploy_job_3:
+        needs: [test_job_2]
+        runs-on: ubuntu-latest 
+        steps:
+         - name: Download Dragon text File   #this will download the txt file generated from this vdi to be used by another job
+          uses: actions/download-artifact@v3
+          with:
+            name: dragon-text-file
+            
+        - name: Read File
+          run: cat dragon.txt
+         
+        - name: Deploy
+          run: echo Deploying ...
+          
