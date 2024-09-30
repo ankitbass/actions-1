@@ -1,7 +1,5 @@
 name: Generate ASCII Artwork
-
 on: push
-
 jobs: 
     ascii_job:
         runs-on: ubuntu-latest
@@ -10,7 +8,7 @@ jobs:
           uses: actions/checkout@v4
         
         - name: Install Cowsay Program
-          run: sudo apt -get instal;l cowsay -y
+          run: sudo apt -get install cowsay -y
 
         - name: Execute COwsay CMD
           run: cowsay -f dragon "Run for cover, I am a Dragon....RAWR" >> dragon.txt
