@@ -19,7 +19,6 @@ jobs:
             name: dragon-text-file
             path: dragon.txt   #this means that the dragon.txt file is placed in the root folder
 
-
     test_job_2:  
         needs: build_job_1   #needs ensures that test_job_2 will only run after build_job_1 i.e. there is a dependency of 1st job on 2nd job OR this tells the dependency of 2nd job 
         runs-on: ubuntu-latest  
