@@ -26,4 +26,6 @@ jobs:
     - name: Run Images on ${{matrix.os}}
       run: docker run ${{matrix.images}}  #matrix.images will take values one by one from the matrix varibale 'images'
 
+  deploy1:
+    if: github.ref == 'refs/heads/main'
     
