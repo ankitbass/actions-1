@@ -3,17 +3,27 @@ on:
   push
 
 jobs:
-  deploy:
-    strategy:
+  deploy:     #job name
+              #syntax for matrix
+    strategy: 
+      max-parallel: 2 #limits the number of below jobs to be run in parallel otherwise all these 6 combinations will run in parallel
       matrix:
-        os: [ubunntu-latest, ubuntu-20.04, windows-latest]
-        images: [hello-world, alpine]
-    runs-on: ${{matrix.os}}
+        os: [ubunntu-latest, ubuntu-20.04, windows-latest]  #3 OS versions defined
+        images: [hello-world, alpine]                       #2 images defined, there will be total 6 combinations.
+              #below code is optional. if you want to execute a paricular image on a particular os only or vice versa then use 'exclude' or 'include' cmd's
+        exclude:   #excludes the apline image i.e. alpine image will not run on the os 'windows-latest'
+        - images: alpine
+          os: windows-latest
+        include:  #includes the amd64/alpine i.e. amd64/alpine image will run only on the os 'ubuntu-20.04'
+        - images: amd64/alpine
+          os: ubuntu-20.04
+
+    runs-on: ${{matrix.os}}                 #matrix.os will take values one by one from the matrix variable 'os'
     steps: 
     - name: Echo Docker Details
       run: docker info
 
     - name: Run Images on ${{matrix.os}}
-      run: docker run ${{matrix.images}}
+      run: docker run ${{matrix.images}}  #matrix.images will take values one by one from the matrix varibale 'images'
 
     
